@@ -1,12 +1,13 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import styled from "styled-components";
+import Footer from "./Footer";
 
 export default function Section(props) {
     const { idMovie } = useParams();
     const [movieData, setMovieData] = useState(null);
-    
+    const navigate = useNavigate();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => getMovieData(), [])
 
@@ -25,21 +26,15 @@ export default function Section(props) {
                     <p>{el.weekday} - {el.date}</p>
                     
                     <div className="buttons">
-                        {el.showtimes.map(but => <button key={but.id}>
+                        {el.showtimes.map(but => <button onClick={() => {navigate(`/seats/${but.id}`)}} key={but.id}>
                             {but.name}
                         </button>)}
                     </div>
                 </div>
                 )
             })}
-            
-           { movieData &&
-           <footer>
-                <div>
-                    <img src={movieData.posterURL} alt="" />
-                </div>
-            </footer>
-           }
+
+            {movieData && <Footer image={movieData.posterURL} title={movieData.title}/>}
         </Sections>
     )
 };
@@ -92,19 +87,5 @@ const Sections = styled.section`
         }
     }
 
-    footer{
-        position: fixed;
-        width: 100%;
-        bottom: 0;
-        background-color: rgba(158, 173, 186, 1);
-        border: 1px solid #9EADBA;
-        div{
-            width: 64px;
-            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-            border-radius: 2px;
-            img{
-                width: 100%;
-            }
-        }
-    }
+    
 `
