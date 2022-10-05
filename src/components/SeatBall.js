@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export default function SeatBall (props){
-    const {type, number, clickable, setSelectedSeats, id} = props;
+    const {type, number, clickable, setSelectedSeats, id, setSelectedSeatsName} = props;
 
     const green = ["#8DD7CF", "#45BDB0"];
     const yellow = ["#FBE192", "#F7C52B"];
@@ -13,7 +13,10 @@ export default function SeatBall (props){
         type === 'available'? uncolored : 
         null}
         disabled={!clickable}
-        onClick={(e) => {setSelectedSeats(old => old.includes(id) ? old.filter(el => el !== id) : [...old, id])}}>
+        onClick={(e) => {
+            setSelectedSeats(old => old.includes(id) ? old.filter(el => el !== id) : [...old, id])
+            setSelectedSeatsName(old => old.includes(number) ? old.filter(el => el !== number) : [...old, number])
+        }}>
         {number}
         </BallComponent>
     )

@@ -1,6 +1,6 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Footer from "./Footer";
 import SeatBall from "./SeatBall"
@@ -9,16 +9,34 @@ export default function Seat(props) {
 
     const [sectionData, setSectionData] = useState(null);
     const [selectedSeats, setSelectedSeats] = useState([]);
+    const [selectedSeatsName, setSelectedSeatsName] = useState([]);
+    const [inputValue, setInputValue] = useState({buyerName: null, buyerCPF: null});
     const { idSection } = useParams();
+    const navigate = useNavigate();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => getSectionData(), [])
-    useEffect(() => console.log(selectedSeats), [selectedSeats])
+    useEffect(() => console.log(selectedSeatsName), [selectedSeatsName])
 
     const getSectionData = () => {
         axios.get(`https://mock-api.driven.com.br/api/v5/cineflex/showtimes/${idSection}/seats`)
         .then(response => setSectionData(response.data));
     }
+
+    const handleConfirmation = () => {
+        if (inputValue.buyerCPF && inputValue.buyerName)
+        {
+        navigate('/confirmation', {
+            state: {buyer: inputValue,
+                    movie: sectionData,
+                    seats: {ids: selectedSeats,
+                            numbers: selectedSeatsName}
+                    }
+                });
+        }
+    }
+
+
     return (
         <SeatsComponent>
             <section className="seats">
@@ -31,7 +49,9 @@ export default function Seat(props) {
                         number={ball.name} 
                         type={selectedSeats.includes(ball.id) ? 'selected' : ball.isAvailable ? 'available' : 'unavailable'} 
                         clickable={ball.isAvailable} 
-                        setSelectedSeats={setSelectedSeats}/>)
+                        setSelectedSeats={setSelectedSeats}
+                        setSelectedSeatsName={setSelectedSeatsName}
+                        />)
                         )}
                 </div>
                 <div className="demo-div">
@@ -50,11 +70,20 @@ export default function Seat(props) {
                 </div>
             </section>
             <section className="buyer-data">
-
+                <div>
+                    <label htmlFor="buyer-name">Nome do comprador:</label>
+                    <input onChange={(e) => {setInputValue({...inputValue, buyerName: e.target.value})}} type="text" name="buyer-name" placeholder="Digite seu nome..."/>
+                </div>
+                <div>
+                    <label htmlFor="buyer-cpf">CPF do comprador:</label>
+                    <input onChange={(e) => {setInputValue({...inputValue, buyerCPF: e.target.value})}} type="text" name="buyer-cpf" placeholder="Digite seu CPF..."/>
+                </div>
             </section>
-            <button className="confirmation-button">
-
-            </button>
+            <section className="buttons">
+                <button onClick={() => {handleConfirmation()}} className="confirmation-button">
+                            Reservar Assento(s)
+                </button>
+            </section>
             {sectionData && <Footer 
             image={sectionData.movie.posterURL}
             title={sectionData.movie.title}
@@ -105,6 +134,54 @@ const SeatsComponent = styled.section`
             flex-direction: column;
             align-items: center;
         }
+    }
+    .buyer-data{
+        display: flex;
+        flex-direction:column;
+        font-size: 18px;
+        width: 100%;
+        align-items: center !important;
+        div{
+            width: 327px;
+            margin-top: 20px;
+        }
+        input{
+            margin: auto;
+            width: 327px;
+            height: 51px;
+            font-size: 18px;
+            font-style: italic;
+            border: 1px solid #D5D5D5;
+            border-radius: 3px; 
+            text-indent: 20px;
+            &::placeholder{
+                color: #AFAFAF;
+                text-indent: 20px;
+                
+            }
+        }
+    }
+    .buttons{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 50px;
+        .confirmation-button{
+            background-color: #E8833A;
+            border-radius: 3px;
+            width: 225px;
+            height: 42px;
+            font-family: 'Roboto', sans-serif;
+            color: white;
+            font-weight: 400;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            letter-spacing: 0.04em
+        }
+
     }
 `
 
