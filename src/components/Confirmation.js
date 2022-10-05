@@ -14,21 +14,21 @@ export default function Confirmation(props) {
     return (
         <ConfirmationComponent>
             <h1 className="confirmation-h1">Pedido feito com sucesso!</h1>
-            <div className="movie-section">
+            <div data-identifier="movie-session-infos-reserve-finished" className="movie-section">
                 <h1>Filme e Sessão</h1>
                 <p>{movie.movie.title}</p>
                 <p>{movie.day.date} {movie.name}</p>
             </div>
-            <div className="tickets">
+            <div data-identifier="seat-infos-reserve-finished" className="tickets">
                 <h1>Ingressos</h1>
                 {seats.numbers.map(el => <p key={el}>Assento {el}</p>)}
             </div>
-            <div className="buyer">
+            <div data-identifier="buyer-infos-reserve-finished" className="buyer">
                 <h1>Comprador</h1>
                 <p>Nome: {buyer.buyerName}</p>
                 <p>CPF: {buyer.buyerCPF}</p>
             </div>
-            <button onClick={() => navigate('/')}>Voltar para Home</button>
+            <button data-identifier="back-to-home-btn" onClick={() => navigate('/')}>Voltar para Home</button>
         </ConfirmationComponent>
     )
 };

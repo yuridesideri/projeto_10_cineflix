@@ -22,11 +22,11 @@ export default function Section(props) {
 
             { movieData && movieData.days.map(el => {
                 return (
-                <div key={el.id}>
+                <div data-identifier="session-date" key={el.id}>
                     <p>{el.weekday} - {el.date}</p>
                     
                     <div className="buttons">
-                        {el.showtimes.map(but => <button onClick={() => {navigate(`/seats/${but.id}`)}} key={but.id}>
+                        {el.showtimes.map(but => <button data-identifier="hour-minute-btn" onClick={() => {navigate(`/seats/${but.id}`)}} key={but.id}>
                             {but.name}
                         </button>)}
                     </div>

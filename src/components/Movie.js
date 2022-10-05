@@ -6,7 +6,7 @@ export default function Movie(props) {
     const navigate = useNavigate();
 
     return (
-        <MovieBox onClick={() => navigate(`/sections/${id}`)}>
+        <MovieBox data-identifier="movie-outdoor" onClick={() => navigate(`/sections/${id}`)}>
             <img src={posterURL} alt="" />
         </MovieBox>
     )

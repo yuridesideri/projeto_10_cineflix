@@ -5,10 +5,10 @@ export default function Footer(props) {
 
     return(
         <FooterComponent>
-            <div>
+            <div data-identifier="movie-img-preview">
                 <img src={image} alt="" />
             </div>
-            <div>
+            <div data-identifier="movie-and-session-infos-preview">
                 <p>{title}</p>
                 <p>{time && time}</p>
             </div>

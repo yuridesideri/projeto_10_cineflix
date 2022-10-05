@@ -24,16 +24,22 @@ export default function Seat(props) {
     }
 
     const handleConfirmation = () => {
-        if (inputValue.buyerCPF && inputValue.buyerName)
+        axios.post('https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many',
         {
-        navigate('/confirmation', {
-            state: {buyer: inputValue,
-                    movie: sectionData,
-                    seats: {ids: selectedSeats,
-                            numbers: selectedSeatsName}
-                    }
-                });
+            ids: selectedSeats,
+            name: inputValue.buyerName,
+            cpf: inputValue.buyerCPF,
         }
+        ).then((r) => {
+            console.log(r.status);
+            navigate('/confirmation', {
+                state: {buyer: inputValue,
+                        movie: sectionData,
+                        seats: {ids: selectedSeats,
+                                numbers: selectedSeatsName}
+                        }
+                    })
+                }).catch(error => console.log(error))
     }
 
 
@@ -55,15 +61,15 @@ export default function Seat(props) {
                         )}
                 </div>
                 <div className="demo-div">
-                    <div className="balls">
+                    <div data-identifier="seat-selected-subtitle" className="balls">
                         <SeatBall type="selected" number={null} clickable={false} />
                         <p>Selecionado</p>
                     </div>
-                    <div className="balls">
+                    <div data-identifier="seat-available-subtitle" className="balls">
                         <SeatBall type="available" number={null} clickable={false} />
                         <p>Disponível</p>
                     </div>
-                    <div className="balls">
+                    <div data-identifier="seat-unavailable-subtitle" className="balls">
                         <SeatBall type="unavailable" number={null} clickable={false} />
                         <p>Indisponível</p>
                     </div>
@@ -72,15 +78,15 @@ export default function Seat(props) {
             <section className="buyer-data">
                 <div>
                     <label htmlFor="buyer-name">Nome do comprador:</label>
-                    <input onChange={(e) => {setInputValue({...inputValue, buyerName: e.target.value})}} type="text" name="buyer-name" placeholder="Digite seu nome..."/>
+                    <input data-identifier="buyer-name-input" onChange={(e) => {setInputValue({...inputValue, buyerName: e.target.value})}} type="text" name="buyer-name" placeholder="Digite seu nome..."/>
                 </div>
                 <div>
                     <label htmlFor="buyer-cpf">CPF do comprador:</label>
-                    <input onChange={(e) => {setInputValue({...inputValue, buyerCPF: e.target.value})}} type="text" name="buyer-cpf" placeholder="Digite seu CPF..."/>
+                    <input data-identifier="buyer-cpf-input" onChange={(e) => {setInputValue({...inputValue, buyerCPF: e.target.value})}} type="text" name="buyer-cpf" placeholder="Digite seu CPF..."/>
                 </div>
             </section>
             <section className="buttons">
-                <button onClick={() => {handleConfirmation()}} className="confirmation-button">
+                <button data-identifier="reservation-btn" onClick={() => {handleConfirmation()}} className="confirmation-button">
                             Reservar Assento(s)
                 </button>
             </section>

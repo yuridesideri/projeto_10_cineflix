@@ -7,11 +7,14 @@ export default function SeatBall (props){
     const yellow = ["#FBE192", "#F7C52B"];
     const uncolored = ["#C3CFD9", "#808F9D"];
     return (
-        <BallComponent color={
-        type === 'selected'? green : 
-        type === 'unavailable' ? yellow : 
-        type === 'available'? uncolored : 
-        null}
+        <BallComponent 
+        data-identifier="seat"
+        color={
+            type === 'selected'? green : 
+            type === 'unavailable' ? yellow : 
+            type === 'available'? uncolored : 
+            null
+        }
         disabled={!clickable}
         onClick={(e) => {
             setSelectedSeats(old => old.includes(id) ? old.filter(el => el !== id) : [...old, id])
