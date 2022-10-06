@@ -24,22 +24,30 @@ export default function Seat(props) {
     }
 
     const handleConfirmation = () => {
-        axios.post('https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many',
-        {
-            ids: selectedSeats,
-            name: inputValue.buyerName,
-            cpf: inputValue.buyerCPF,
-        }
-        ).then((r) => {
-            console.log(r.status);
-            navigate('/confirmation', {
-                state: {buyer: inputValue,
-                        movie: sectionData,
-                        seats: {ids: selectedSeats,
-                                numbers: selectedSeatsName}
-                        }
-                    })
-                }).catch(error => console.log(error))
+        const cpfNumberChar =  inputValue.buyerCPF !== null && inputValue.buyerCPF.length === 11;
+        const cpfNumberOnly = !isNaN(inputValue.buyerCPF);
+        const nameNotEmpty =  inputValue.buyerName !== null && inputValue.buyerName.length > 2;
+        const seatNotZero = selectedSeats.length > 0;
+
+
+        if (cpfNumberChar && cpfNumberOnly && nameNotEmpty && seatNotZero){
+            axios.post('https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many',
+            {
+                ids: selectedSeats,
+                name: inputValue.buyerName,
+                cpf: inputValue.buyerCPF,
+            }
+            ).then((r) => {
+                console.log(r.status);
+                navigate('/confirmation', {
+                    state: {buyer: inputValue,
+                            movie: sectionData,
+                            seats: {ids: selectedSeats,
+                                    numbers: selectedSeatsName}
+                            }
+                        })
+                    }).catch(error => console.log(error))
+            }
     }
 
 

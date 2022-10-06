@@ -6,11 +6,15 @@ export default function Confirmation(props) {
     const location = useLocation();
     const {seats, buyer, movie} = location.state;
     const navigate = useNavigate();
-    useEffect(()=>{sendConfirmationToAPI()}, [])
 
-    const sendConfirmationToAPI = () =>{
-        
+    function indentCPF (cpf) {
+        cpf = cpf.split('')
+        cpf.splice(3,0,'.');
+        cpf.splice(7,0, '.');
+        cpf.splice(11,0, '-');
+        return cpf.join('');
     }
+
     return (
         <ConfirmationComponent>
             <h1 className="confirmation-h1">Pedido feito com sucesso!</h1>
@@ -25,8 +29,8 @@ export default function Confirmation(props) {
             </div>
             <div data-identifier="buyer-infos-reserve-finished" className="buyer">
                 <h1>Comprador</h1>
-                <p>Nome: {buyer.buyerName}</p>
-                <p>CPF: {buyer.buyerCPF}</p>
+                <p>Nome: {buyer.buyerName[0].toUpperCase() + buyer.buyerName.slice(1-buyer.buyerName.length)}</p>
+                <p>CPF: {indentCPF(buyer.buyerCPF)}</p>
             </div>
             <button data-identifier="back-to-home-btn" onClick={() => navigate('/')}>Voltar para Home</button>
         </ConfirmationComponent>

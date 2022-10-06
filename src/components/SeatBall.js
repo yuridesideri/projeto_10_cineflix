@@ -6,6 +6,7 @@ export default function SeatBall (props){
     const green = ["#8DD7CF", "#45BDB0"];
     const yellow = ["#FBE192", "#F7C52B"];
     const uncolored = ["#C3CFD9", "#808F9D"];
+    
     return (
         <BallComponent 
         data-identifier="seat"

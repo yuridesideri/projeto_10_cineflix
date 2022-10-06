@@ -35,6 +35,7 @@ export default function Section(props) {
             })}
 
             {movieData && <Footer image={movieData.posterURL} title={movieData.title}/>}
+
         </Sections>
     )
 };
@@ -45,6 +46,7 @@ const Sections = styled.section`
     flex-direction: column;
     align-items: center;
     padding: 23px;
+    padding-bottom: 130px;
     h1{
         font-family: 'Roboto';
         font-style: normal;
