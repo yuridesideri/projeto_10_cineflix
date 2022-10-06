@@ -16,7 +16,6 @@ export default function Seat(props) {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => getSectionData(), [])
-    useEffect(() => console.log(selectedSeatsName), [selectedSeatsName])
 
     const getSectionData = () => {
         axios.get(`https://mock-api.driven.com.br/api/v5/cineflex/showtimes/${idSection}/seats`)
@@ -38,7 +37,6 @@ export default function Seat(props) {
                 cpf: inputValue.buyerCPF,
             }
             ).then((r) => {
-                console.log(r.status);
                 navigate('/confirmation', {
                     state: {buyer: inputValue,
                             movie: sectionData,
